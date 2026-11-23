@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:flowable="http://flowable.org/bpmn"
+             id="Definitions_listeners"
+             targetNamespace="http://flowable.org/bpmn">
+  <process id="process" isExecutable="true">
+    <extensionElements>
+      <flowable:executionListener event="start" class="org.example.StartListener" onTransaction="committed">
+        <flowable:field name="plain" stringValue="audit" />
+        <flowable:field name="nested">
+          <flowable:expression>${channel}</flowable:expression>
+        </flowable:field>
+      </flowable:executionListener>
+      <flowable:eventListener events="TASK_CREATED" entityType="task" class="org.example.TaskEvents" />
+    </extensionElements>
+    <startEvent id="start" />
+    <sequenceFlow id="flow1" sourceRef="start" targetRef="task" />
+    <userTask id="task" name="Task">
+      <extensionElements>
+        <flowable:taskListener event="create" delegateExpression="${notify}" />
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow2" sourceRef="task" targetRef="end" />
+    <endEvent id="end" />
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process">
+      <bpmndi:BPMNShape id="start_di" bpmnElement="start"><dc:Bounds x="100" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="task_di" bpmnElement="task"><dc:Bounds x="180" y="78" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_di" bpmnElement="end"><dc:Bounds x="330" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="flow1_di" bpmnElement="flow1"><di:waypoint x="136" y="118" /><di:waypoint x="180" y="118" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="flow2_di" bpmnElement="flow2"><di:waypoint x="280" y="118" /><di:waypoint x="330" y="118" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

@@ -25,7 +25,7 @@ let current = null;
  * @param {string} xml
  */
 export async function createModeler(xml) {
-  destroyModeler();
+  await destroyModeler();
 
   const container = document.createElement('div');
   container.style.cssText = 'width: 800px; height: 500px;';
@@ -71,15 +71,25 @@ export async function createModeler(xml) {
   };
 }
 
-export function destroyModeler() {
+export async function destroyModeler() {
   if (!current) {
     return;
   }
+
+  // diagram-js schedules context pad updates in animation frames after a
+  // selection; let them run before the canvas is torn down
+  current.modeler.get('selection').select(null);
+  await nextFrame();
+  await nextFrame();
 
   current.modeler.destroy();
   current.container.remove();
   current.panel.remove();
   current = null;
+}
+
+function nextFrame() {
+  return new Promise(resolve => requestAnimationFrame(() => resolve()));
 }
 
 export function tick() {
@@ -117,4 +127,27 @@ export async function openGroup(groupNode) {
     header.click();
     await tick();
   }
+}
+
+/**
+ * Clicks a list group's add button.
+ */
+export async function addListItem(groupNode) {
+  groupNode.querySelector('.bio-properties-panel-add-entry').click();
+  await tick();
+}
+
+/**
+ * Opens a collapsible list item (or nested list entry item) by its entry id.
+ */
+export async function openItem(panelNode, id) {
+  const item = panelNode.querySelector(`[data-entry-id="${ id }"]`);
+  const header = item && item.querySelector('.bio-properties-panel-collapsible-entry-header');
+
+  if (header && !header.classList.contains('open')) {
+    header.click();
+    await tick();
+  }
+
+  return item;
 }

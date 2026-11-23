@@ -36,6 +36,9 @@ The Flowable groups come after the BPMN ones.
 |---|---|---|
 | Flowable | flow elements | multi-line name (`element-name`), history override (`includeInHistory`) |
 | Asynchronous execution | flow nodes | `async`, `exclusive`, `asyncLeave`, `asyncLeaveExclusive`, retry time cycle (activities), job category |
+| Execution listeners | process, flow nodes, sequence flows | event, Java class / expression / delegate expression / script, transaction phase, custom properties resolver, field injection |
+| Task listeners | user tasks | the same, with the task events create, assignment, complete, delete, all |
+| Event listeners | process | events, entity type, Java class / delegate expression / thrown signal, global signal, message or error, transaction phase |
 
 The coverage of all Flowable extensions is tracked in the [coverage matrix](https://github.com/jylups/bpmn-js-env/blob/main/docs/coverage.md).
 
