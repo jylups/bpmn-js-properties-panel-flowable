@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:flowable="http://flowable.org/bpmn"
+             id="Definitions_callActivity"
+             targetNamespace="http://flowable.org/bpmn">
+  <process id="parent" isExecutable="true">
+    <startEvent id="start">
+      <extensionElements>
+        <flowable:in source="initialAmount" target="amount" />
+      </extensionElements>
+    </startEvent>
+    <callActivity id="callChild" calledElement="child" flowable:calledElementType="key"
+                  flowable:processInstanceName="Child of ${parentName}" flowable:businessKey="${orderId}"
+                  flowable:inheritVariables="true" flowable:completeAsync="true" flowable:idVariableName="childId">
+      <extensionElements>
+        <flowable:in source="customer" target="client" />
+        <flowable:in sourceExpression="${order.total * 2}" target="doubled" targetType="long" />
+        <flowable:out source="result" target="childResult" />
+      </extensionElements>
+    </callActivity>
+    <callActivity id="legacyCall" calledElement="${childKey}" flowable:calledElementType="id" flowable:calledElementBinding="deployment">
+      <extensionElements>
+        <flowable:in variables="all" />
+        <flowable:in businessKey="${parentKey}" />
+        <flowable:out variables="all" local="true" />
+      </extensionElements>
+    </callActivity>
+    <scriptTask id="script" scriptFormat="groovy">
+      <script>y + 1</script>
+    </scriptTask>
+    <serviceTask id="caseTask" flowable:type="case" flowable:caseDefinitionKey="claim" />
+    <userTask id="task" />
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="parent">
+      <bpmndi:BPMNShape id="start_di" bpmnElement="start"><dc:Bounds x="100" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="callChild_di" bpmnElement="callChild"><dc:Bounds x="180" y="78" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="legacyCall_di" bpmnElement="legacyCall"><dc:Bounds x="310" y="78" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="script_di" bpmnElement="script"><dc:Bounds x="440" y="78" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="caseTask_di" bpmnElement="caseTask"><dc:Bounds x="180" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="task_di" bpmnElement="task"><dc:Bounds x="310" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
