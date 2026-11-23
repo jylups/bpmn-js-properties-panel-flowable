@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:flowable="http://flowable.org/bpmn"
+             id="Definitions_events"
+             targetNamespace="http://flowable.org/bpmn">
+  <signal id="alert" name="alert" />
+  <message id="orderMessage" name="order" />
+  <error id="paymentError" errorCode="payment" />
+  <process id="events" isExecutable="true">
+    <startEvent id="orderReceived">
+      <extensionElements>
+        <flowable:eventType>orderCreated</flowable:eventType>
+        <flowable:eventName>Order created</flowable:eventName>
+        <flowable:eventCorrelationParameter name="customerId" value="${customerId}" type="string" />
+        <flowable:eventOutParameter source="total" target="orderTotal" sourceType="double" />
+        <flowable:startEventCorrelationConfiguration>storeAsUniqueReferenceId</flowable:startEventCorrelationConfiguration>
+      </extensionElements>
+    </startEvent>
+    <userTask id="work" name="Work" />
+    <boundaryEvent id="reminder" attachedToRef="work" cancelActivity="false">
+      <timerEventDefinition flowable:businessCalendarName="workdays">
+        <timeCycle xsi:type="tFormalExpression" flowable:endDate="2026-12-31T23:59:59">R3/PT1H</timeCycle>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <boundaryEvent id="watch" attachedToRef="work" cancelActivity="false">
+      <extensionElements>
+        <flowable:variableListenerEventDefinition variableName="status" variableChangeType="update-create" />
+      </extensionElements>
+    </boundaryEvent>
+    <boundaryEvent id="failed" attachedToRef="work">
+      <errorEventDefinition errorRef="paymentError" flowable:errorVariableName="paymentFailure" flowable:errorVariableTransient="true" />
+    </boundaryEvent>
+    <intermediateCatchEvent id="waitMessage">
+      <messageEventDefinition messageRef="orderMessage" flowable:messageExpression="${'order-' + orderId}" />
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="plainCatch" />
+    <intermediateThrowEvent id="raise">
+      <signalEventDefinition signalRef="alert" flowable:signalExpression="${alertName}" flowable:async="true" />
+    </intermediateThrowEvent>
+    <endEvent id="stop">
+      <terminateEventDefinition flowable:terminateAll="true" />
+    </endEvent>
+    <endEvent id="plainEnd" />
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="events">
+      <bpmndi:BPMNShape id="orderReceived_di" bpmnElement="orderReceived"><dc:Bounds x="100" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="work_di" bpmnElement="work"><dc:Bounds x="180" y="78" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="reminder_di" bpmnElement="reminder"><dc:Bounds x="182" y="140" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="watch_di" bpmnElement="watch"><dc:Bounds x="212" y="140" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="failed_di" bpmnElement="failed"><dc:Bounds x="242" y="140" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="waitMessage_di" bpmnElement="waitMessage"><dc:Bounds x="330" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="plainCatch_di" bpmnElement="plainCatch"><dc:Bounds x="400" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="raise_di" bpmnElement="raise"><dc:Bounds x="470" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="stop_di" bpmnElement="stop"><dc:Bounds x="540" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="plainEnd_di" bpmnElement="plainEnd"><dc:Bounds x="610" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
