@@ -9,10 +9,10 @@ It adds groups for the Flowable engine's BPMN extensions (the open-source engine
 ## Install
 
 ```sh
-npm install @jylups/bpmn-js-properties-panel-flowable @jylups/flowable-bpmn-moddle bpmn-js bpmn-js-properties-panel @bpmn-io/properties-panel
+npm install @jylups/bpmn-js-properties-panel-flowable @jylups/flowable-bpmn-moddle @jylups/flowable-bpmn-js-behaviors bpmn-js bpmn-js-properties-panel @bpmn-io/properties-panel
 ```
 
-bpmn-js, the bpmn.io properties panel and the Flowable moddle descriptor are peer dependencies.
+bpmn-js, the bpmn.io properties panel and the Flowable moddle descriptor are peer dependencies. The [Flowable modeling behaviors](https://github.com/jylups/flowable-bpmn-js-behaviors) are optional but recommended: they keep Flowable data consistent when elements are replaced, copied or pasted, and keep references by code or name on import.
 
 ## Usage
 
@@ -20,6 +20,7 @@ bpmn-js, the bpmn.io properties panel and the Flowable moddle descriptor are pee
 import Modeler from 'bpmn-js/lib/Modeler';
 import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule } from 'bpmn-js-properties-panel';
 import { FlowablePropertiesProviderModule } from '@jylups/bpmn-js-properties-panel-flowable';
+import { FlowableBehaviorsModule } from '@jylups/flowable-bpmn-js-behaviors';
 import flowableDescriptor from '@jylups/flowable-bpmn-moddle';
 
 const modeler = new Modeler({
@@ -28,7 +29,8 @@ const modeler = new Modeler({
   additionalModules: [
     BpmnPropertiesPanelModule,
     BpmnPropertiesProviderModule,
-    FlowablePropertiesProviderModule
+    FlowablePropertiesProviderModule,
+    FlowableBehaviorsModule
   ],
   moddleExtensions: {
     flowable: flowableDescriptor

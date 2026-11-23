@@ -4,6 +4,8 @@ All notable changes to this package are documented here.
 
 ## Unreleased
 
+* `CHORE`: run the tests with the Flowable behaviors (`@jylups/flowable-bpmn-js-behaviors` 0.1.0) and recommend them in the README ([jylups/bpmn-js-env#38](https://github.com/jylups/bpmn-js-env/issues/38))
+
 ## 0.1.0
 
 First stable release, with the same features as 0.1.0-next.0.
