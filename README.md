@@ -42,12 +42,16 @@ The Flowable groups come after the BPMN ones.
 | Task | user tasks | due date, business calendar, priority, category, skip expression, task ID and completer variables, extension ID |
 | Form | user tasks, service tasks | form key, form field validation, form from the same deployment (user tasks) |
 | Implementation | service tasks | type (Java class, expression, delegate expression, mail, HTTP, shell, Camel, decision, case, send event, external worker; unknown types are kept), its value, result variable (expressions), triggerable, skip expression, extension ID. Changing the type drops the attributes, fields and elements of the previous one |
-| Mail, HTTP, Shell, Camel, Decision | service tasks of that type | the fields the type reads, by name; `${…}` values are stored as expressions. HTTP adds parallel in the same transaction |
+| Mail, HTTP, Shell, Camel, Decision | service and send tasks of that type | the fields the type reads, by name; `${…}` values are stored as expressions. HTTP adds parallel in the same transaction |
 | HTTP handlers | HTTP tasks | request and response handler: Java class, delegate expression (with field injection) or script |
 | Case | case tasks | case definition key, instance name, business key and inheritance, variables, same deployment, default tenant fallback, instance ID variable |
 | External worker, Worker input, Worker output | external worker tasks | topic, do not include variables, in and out parameters |
 | Send event, Event payload, Trigger event output, Trigger correlation | send event tasks | event key, channel keys, system channel, send synchronously, trigger event key, event in and out parameters, correlation parameters |
-| Field injection | service tasks | fields of class and delegate expression implementations, and fields a typed task does not read (Other fields) |
+| Implementation (send tasks) | send tasks | type: mail, Camel or decision, with the matching field group |
+| Script options | script tasks | result variable (the `resultVariableName` alias is read and replaced on edit), store script variables, do not include variables, skip expression |
+| Business rule | business rule tasks | input variables, rules, exclude, result variable, Java class |
+| Receive, Event output, Event correlation | receive tasks | event key, event name, skip expression, event out parameters, correlation parameters |
+| Field injection | service and send tasks | fields of class and delegate expression implementations, and fields a typed task does not read (Other fields) |
 | Exception mapping | service tasks, call activities | error code, exception class, include subclasses, root cause |
 | Form properties | start events, user tasks | ID, name, type (built-in or custom), date pattern and lenient parsing (date), values (enum), variable, expression, default, readable, writable, required |
 | Asynchronous execution | flow nodes | `async`, `exclusive`, `asyncLeave`, `asyncLeaveExclusive`, retry time cycle (activities), job category |
