@@ -33,7 +33,7 @@ describe('Flowable general and async groups', function() {
       expect(groupIds[0]).toBe('group-general');
       expect(groupIds[firstFlowable]).toBe('group-flowable-general');
       expect(groupIds.slice(firstFlowable).every(id => id.startsWith('group-flowable-'))).toBe(true);
-      expect(groupIds.slice(-2)).toEqual([ 'group-flowable-async', 'group-flowable-executionListeners' ]);
+      expect(groupIds.slice(-3)).toEqual([ 'group-flowable-async', 'group-flowable-executionListeners', 'group-flowable-localizations' ]);
     });
 
 

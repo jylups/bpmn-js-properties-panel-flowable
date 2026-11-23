@@ -55,7 +55,8 @@ describe('Flowable user task groups', function() {
       'group-flowable-formProperties',
       'group-flowable-async',
       'group-flowable-executionListeners',
-      'group-flowable-taskListeners'
+      'group-flowable-taskListeners',
+      'group-flowable-localizations'
     ]);
   });
 
