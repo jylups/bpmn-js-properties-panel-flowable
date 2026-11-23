@@ -7,6 +7,8 @@ import {
 
 import flowableDescriptor from '@jylups/flowable-bpmn-moddle';
 
+import { FlowableBehaviorsModule } from '@jylups/flowable-bpmn-js-behaviors';
+
 import { FlowablePropertiesProviderModule } from '../index.js';
 
 /**
@@ -19,8 +21,9 @@ const NoDebounceModule = {
 let current = null;
 
 /**
- * Creates a modeler with the bpmn.io properties panel and the Flowable
- * provider, imports the XML and returns helpers to drive the panel.
+ * Creates a modeler with the bpmn.io properties panel, the Flowable
+ * provider and the Flowable behaviors, as apps are meant to set it up,
+ * imports the XML and returns helpers to drive the panel.
  *
  * @param {string} xml
  */
@@ -42,6 +45,7 @@ export async function createModeler(xml) {
       BpmnPropertiesPanelModule,
       BpmnPropertiesProviderModule,
       FlowablePropertiesProviderModule,
+      FlowableBehaviorsModule,
       NoDebounceModule
     ],
     moddleExtensions: { flowable: flowableDescriptor }
