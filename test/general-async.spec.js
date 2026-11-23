@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { getExtensionElement } from '../index.js';
 
@@ -193,8 +193,11 @@ describe('Flowable general and async groups', function() {
       // when
       await changeInput(panel.input('flowable-failedJobRetryTimeCycle'), 'every five minutes');
 
-      // then: the bpmn.io panel keeps the typed value and marks the entry
-      expect(panel.entry('flowable-failedJobRetryTimeCycle').classList.contains('has-error')).toBe(true);
+      // then: the bpmn.io panel keeps the typed value and marks the entry,
+      // which it renders after the input; wait for it on slower machines
+      await vi.waitFor(() => {
+        expect(panel.entry('flowable-failedJobRetryTimeCycle').classList.contains('has-error')).toBe(true);
+      });
     });
 
 
