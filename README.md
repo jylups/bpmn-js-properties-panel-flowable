@@ -37,6 +37,10 @@ The Flowable groups come after the BPMN ones.
 | Flowable | flow elements | multi-line name (`element-name`), history override (`includeInHistory`) |
 | Process | process, participant (its process) | candidate starter users and groups, potential starters (`user(…)`, `group(…)`), history level, eager execution fetching |
 | Start | start events | initiator, form key, form field validation, form from the same deployment (checked by default, as in Flowable) |
+| Assignment | user tasks | assignee, owner, candidate users, candidate groups |
+| Custom resources | user tasks | link type and users and groups (`user(…)`, `group(…)`) of each `customResource` |
+| Task | user tasks | due date, business calendar, priority, category, skip expression, task ID and completer variables, extension ID |
+| Form | user tasks | form key, form field validation, form from the same deployment |
 | Form properties | start events, user tasks | ID, name, type (built-in or custom), date pattern and lenient parsing (date), values (enum), variable, expression, default, readable, writable, required |
 | Asynchronous execution | flow nodes | `async`, `exclusive`, `asyncLeave`, `asyncLeaveExclusive`, retry time cycle (activities), job category |
 | Execution listeners | process, flow nodes, sequence flows | event, Java class / expression / delegate expression / script, transaction phase, custom properties resolver, field injection |
