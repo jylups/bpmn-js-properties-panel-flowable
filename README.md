@@ -2,7 +2,17 @@
 
 Flowable properties provider for bpmn-js-properties-panel.
 
-> Work in progress, built in Phase 2 of the Flowable BPMN editor ([jylups/bpmn-js-env#20](https://github.com/jylups/bpmn-js-env/issues/20)). It is not published yet.
+It adds groups for the Flowable engine's BPMN extensions (the open-source engine): user task assignment and forms, service task implementations and their typed variants, listeners, call activities and mappings, multi-instance, events and the event registry, and more. It edits the model described by [@jylups/flowable-bpmn-moddle](https://github.com/jylups/flowable-bpmn-moddle).
+
+![User task assignment and task settings](https://raw.githubusercontent.com/jylups/bpmn-js-properties-panel-flowable/main/docs/screenshots/user-task.png)
+
+## Install
+
+```sh
+npm install @jylups/bpmn-js-properties-panel-flowable @jylups/flowable-bpmn-moddle bpmn-js bpmn-js-properties-panel @bpmn-io/properties-panel
+```
+
+bpmn-js, the bpmn.io properties panel and the Flowable moddle descriptor are peer dependencies.
 
 ## Usage
 
@@ -69,7 +79,19 @@ The Flowable groups come after the BPMN ones.
 | Event listeners | process | events, entity type, Java class / delegate expression / thrown signal, global signal, message or error, transaction phase |
 | Localization | process, flow elements, data objects | locale, name and documentation of each `<flowable:localization>` |
 
-The coverage of all Flowable extensions is tracked in the [coverage matrix](https://github.com/jylups/bpmn-js-env/blob/main/docs/coverage.md).
+The coverage of all Flowable extensions is tracked in the [coverage matrix](https://github.com/jylups/bpmn-js-env/blob/main/docs/coverage.md). A test checks that every type and property of the moddle descriptor is edited by a group, except the Flowable Work/Design elements (`work-form-field-validation`, `task-candidates-type`, `static-process-key`, `translation`), which are kept on import and export but not edited yet.
+
+| HTTP task | Execution listener | Call activity |
+|---|---|---|
+| ![HTTP task](https://raw.githubusercontent.com/jylups/bpmn-js-properties-panel-flowable/main/docs/screenshots/http-task.png) | ![Execution listener](https://raw.githubusercontent.com/jylups/bpmn-js-properties-panel-flowable/main/docs/screenshots/execution-listener.png) | ![Call activity](https://raw.githubusercontent.com/jylups/bpmn-js-properties-panel-flowable/main/docs/screenshots/call-activity.png) |
+
+## Validation
+
+Entries mark values Flowable would reject, as the bpmn.io panel does: the value is kept and the entry shows the error.
+
+- Required: the implementation of a service task and its class or expression, the class or expression of a listener, field names, form property IDs, custom resource link types, exception mapping error codes, the called element, localization locales, variable listener names.
+- Expressions: a `${` or `#{` without its closing `}`, in any text entry.
+- Dates and durations: the due date of a user task (ISO 8601 date or duration), the end date of a timer cycle and `datetime` data object values (ISO 8601 date), the retry time cycle (ISO 8601 repeating interval). Expressions are accepted in each.
 
 ## Extension element helpers
 
@@ -84,6 +106,8 @@ npm install
 npm run lint
 npm test
 ```
+
+The screenshots in `docs/screenshots` are taken from the running playground with `node scripts/panel-screenshots.js` in the workspace.
 
 The tests run in headless Chromium through Playwright. Either install Playwright's Chromium once with `npx playwright install chromium`, or use an installed Google Chrome with `TEST_BROWSER_CHANNEL=chrome npm test`.
 
