@@ -56,6 +56,8 @@ The Flowable groups come after the BPMN ones.
 | In mappings, Out mappings | call activities and case tasks (in and out), start events and script tasks (in) | per mapping: a variable (source or source expression, target or target expression, types, transient), all variables (with local), or the business key (in only) |
 | Exception mapping | service tasks, call activities | error code, exception class, include subclasses, root cause |
 | Form properties | start events, user tasks | ID, name, type (built-in or custom), date pattern and lenient parsing (date), values (enum), variable, expression, default, readable, writable, required |
+| Multi-instance collection | multi-instance activities | collection as a variable or expression, or a collection handler (Java class or delegate expression, with string or expression input); element and index variables; async leave without wait states. Cardinality and completion condition stay in the bpmn.io Multi-instance group |
+| Variable aggregations | multi-instance activities | target variable or expression, aggregator (default, Java class, delegate expression), transient, overview variable, and the variables (source, target, as unprefixed `<variable>`) |
 | Asynchronous execution | flow nodes | `async`, `exclusive`, `asyncLeave`, `asyncLeaveExclusive`, retry time cycle (activities), job category |
 | Execution listeners | process, flow nodes, sequence flows | event, Java class / expression / delegate expression / script, transaction phase, custom properties resolver, field injection |
 | Task listeners | user tasks | the same, with the task events create, assignment, complete, delete, all |
