@@ -4,6 +4,10 @@ All notable changes to this package are documented here.
 
 ## Unreleased
 
+## 0.1.0
+
+First stable release, with the same features as 0.1.0-next.0.
+
 ## 0.1.0-next.0
 
 First prerelease: the Flowable groups for the extensions the open-source engine reads (see the [coverage matrix](https://github.com/jylups/bpmn-js-env/blob/main/docs/coverage.md)).

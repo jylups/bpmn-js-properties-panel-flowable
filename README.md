@@ -8,10 +8,8 @@ It adds groups for the Flowable engine's BPMN extensions (the open-source engine
 
 ## Install
 
-> Prerelease. Built in Phase 2 of the Flowable BPMN editor ([jylups/bpmn-js-env#20](https://github.com/jylups/bpmn-js-env/issues/20)).
-
 ```sh
-npm install @jylups/bpmn-js-properties-panel-flowable@next @jylups/flowable-bpmn-moddle bpmn-js bpmn-js-properties-panel @bpmn-io/properties-panel
+npm install @jylups/bpmn-js-properties-panel-flowable @jylups/flowable-bpmn-moddle bpmn-js bpmn-js-properties-panel @bpmn-io/properties-panel
 ```
 
 bpmn-js, the bpmn.io properties panel and the Flowable moddle descriptor are peer dependencies.
