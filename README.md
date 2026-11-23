@@ -35,6 +35,8 @@ The Flowable groups come after the BPMN ones.
 | Group | Elements | Entries |
 |---|---|---|
 | Flowable | flow elements | multi-line name (`element-name`), history override (`includeInHistory`) |
+| Data object | data object references (their data object) | type (`xsd:string`, `int`, `long`, `double`, `boolean`, `datetime`, `json`; other values are kept), default value (`<flowable:value>`) |
+| Sequence flow | sequence flows | skip expression |
 | Process | process, participant (its process) | candidate starter users and groups, potential starters (`user(…)`, `group(…)`), history level, eager execution fetching |
 | Start | start events | initiator, form key, form field validation, form from the same deployment (checked by default, as in Flowable) |
 | Assignment | user tasks | assignee, owner, candidate users, candidate groups |
@@ -54,7 +56,7 @@ The Flowable groups come after the BPMN ones.
 | Field injection | service and send tasks | fields of class and delegate expression implementations, and fields a typed task does not read (Other fields) |
 | Called process | call activities | called element and its type (key or ID), same deployment (the legacy `calledElementBinding="deployment"` is read and replaced on edit), default tenant fallback, instance name, business key and inheritance, inherit variables, out mappings in local scope, complete asynchronously, instance ID variable |
 | In mappings, Out mappings | call activities and case tasks (in and out), start events, script tasks, boundary and intermediate catch events (in), end and intermediate throw events (out) | per mapping: a variable (source or source expression, target or target expression, types, transient), all variables (with local), or the business key (in only) |
-| Timer, Signal, Message, Error, Terminate options | events with that event definition | business calendar and cycle end date; signal expression and throw asynchronously (throw events); message expression; error variable, transient and local scope (catching errors); terminate all and terminate multi-instance |
+| Timer, Signal, Message, Error, Terminate options | events with that event definition | business calendar and cycle end date; signal expression, throw asynchronously (throw events) and the scope of the referenced signal; message expression; error variable, transient and local scope (catching errors); terminate all and terminate multi-instance |
 | Variable listener | start, boundary and intermediate catch events without an event definition or event key | fire on variable changes, variable name, change type |
 | Event registry, Event output, Event correlation | start, boundary and intermediate catch events without an event definition (and receive tasks for output and correlation) | event key, event name, start correlation configuration (start events), event out parameters, correlation parameters |
 | Exception mapping | service tasks, call activities | error code, exception class, include subclasses, root cause |
@@ -65,6 +67,7 @@ The Flowable groups come after the BPMN ones.
 | Execution listeners | process, flow nodes, sequence flows | event, Java class / expression / delegate expression / script, transaction phase, custom properties resolver, field injection |
 | Task listeners | user tasks | the same, with the task events create, assignment, complete, delete, all |
 | Event listeners | process | events, entity type, Java class / delegate expression / thrown signal, global signal, message or error, transaction phase |
+| Localization | process, flow elements, data objects | locale, name and documentation of each `<flowable:localization>` |
 
 The coverage of all Flowable extensions is tracked in the [coverage matrix](https://github.com/jylups/bpmn-js-env/blob/main/docs/coverage.md).
 

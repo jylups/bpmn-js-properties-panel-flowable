@@ -61,7 +61,7 @@ describe('Flowable service task groups', function() {
       expect(panel.input('flowable-implementationValue').value).toBe('org.example.Charge');
       expect(panel.input('flowable-triggerable').checked).toBe(false);
       expect(panel.input('flowable-resultVariableName')).toBeNull();
-      expect(groupIds()).toEqual([ 'general', 'implementation', 'fields', 'mapExceptions', 'form', 'async', 'executionListeners' ]);
+      expect(groupIds()).toEqual([ 'general', 'implementation', 'fields', 'mapExceptions', 'form', 'async', 'executionListeners', 'localizations' ]);
     });
 
 

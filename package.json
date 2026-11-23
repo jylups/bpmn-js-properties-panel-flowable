@@ -40,14 +40,14 @@
   },
   "peerDependencies": {
     "@bpmn-io/properties-panel": "^3.60.2",
-    "@jylups/flowable-bpmn-moddle": "^0.1.0-next.0",
+    "@jylups/flowable-bpmn-moddle": "^0.1.0",
     "bpmn-js": "^18.33.1",
     "bpmn-js-properties-panel": "^5.65.4"
   },
   "devDependencies": {
     "@bpmn-io/properties-panel": "^3.60.2",
     "@eslint/js": "^10.0.1",
-    "@jylups/flowable-bpmn-moddle": "^0.1.0-next.0",
+    "@jylups/flowable-bpmn-moddle": "^0.1.0",
     "@vitest/browser-playwright": "^5.1.1",
     "bpmn-js": "^18.33.1",
     "bpmn-js-properties-panel": "^5.65.4",
