@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:flowable="http://flowable.org/bpmn"
+             id="Definitions_tasks"
+             targetNamespace="http://flowable.org/bpmn">
+  <process id="process" isExecutable="true">
+    <scriptTask id="script" scriptFormat="groovy" flowable:resultVariableName="sum" flowable:autoStoreVariables="false">
+      <script>a + b</script>
+    </scriptTask>
+    <businessRuleTask id="rule" flowable:ruleVariablesInput="order" flowable:rules="discount" flowable:resultVariable="rulesOutput" />
+    <sendTask id="send" flowable:type="mail">
+      <extensionElements>
+        <flowable:field name="to"><flowable:string>ops@example.com</flowable:string></flowable:field>
+      </extensionElements>
+    </sendTask>
+    <receiveTask id="receive" flowable:skipExpression="${skipWait}">
+      <extensionElements>
+        <flowable:eventType>orderShipped</flowable:eventType>
+        <flowable:eventOutParameter source="trackingNumber" target="tracking" />
+        <flowable:eventCorrelationParameter name="orderId" value="${orderId}" />
+      </extensionElements>
+    </receiveTask>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process">
+      <bpmndi:BPMNShape id="script_di" bpmnElement="script"><dc:Bounds x="100" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="rule_di" bpmnElement="rule"><dc:Bounds x="230" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="send_di" bpmnElement="send"><dc:Bounds x="360" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="receive_di" bpmnElement="receive"><dc:Bounds x="490" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
