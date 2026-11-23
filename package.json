@@ -1,6 +1,6 @@
 {
   "name": "@jylups/bpmn-js-properties-panel-flowable",
-  "version": "0.0.0",
+  "version": "0.1.0-next.0",
   "description": "Flowable properties provider for bpmn-js-properties-panel",
   "type": "module",
   "exports": {
