@@ -29,7 +29,7 @@ describe('Flowable general and async groups', function() {
       const groupIds = [ ...panel.panel.querySelectorAll('[data-group-id]') ].map(node => node.dataset.groupId);
 
       expect(groupIds[0]).toBe('group-general');
-      expect(groupIds.slice(-2)).toEqual([ 'group-flowable-general', 'group-flowable-async' ]);
+      expect(groupIds.slice(-3)).toEqual([ 'group-flowable-general', 'group-flowable-async', 'group-flowable-executionListeners' ]);
     });
 
 

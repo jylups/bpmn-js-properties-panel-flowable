@@ -118,3 +118,26 @@ export async function openGroup(groupNode) {
     await tick();
   }
 }
+
+/**
+ * Clicks a list group's add button.
+ */
+export async function addListItem(groupNode) {
+  groupNode.querySelector('.bio-properties-panel-add-entry').click();
+  await tick();
+}
+
+/**
+ * Opens a collapsible list item (or nested list entry item) by its entry id.
+ */
+export async function openItem(panelNode, id) {
+  const item = panelNode.querySelector(`[data-entry-id="${ id }"]`);
+  const header = item && item.querySelector('.bio-properties-panel-collapsible-entry-header');
+
+  if (header && !header.classList.contains('open')) {
+    header.click();
+    await tick();
+  }
+
+  return item;
+}
