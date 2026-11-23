@@ -92,8 +92,13 @@ function nextFrame() {
   return new Promise(resolve => requestAnimationFrame(() => resolve()));
 }
 
+/**
+ * Waits for the panel to render: a macrotask, then an animation frame, since
+ * the panel's entries update their local state in effects that run after the
+ * next frame.
+ */
 export function tick() {
-  return new Promise(resolve => setTimeout(resolve, 0));
+  return new Promise(resolve => setTimeout(() => requestAnimationFrame(() => setTimeout(resolve, 0)), 0));
 }
 
 /**
@@ -101,6 +106,10 @@ export function tick() {
  * panel to render again.
  */
 export async function changeInput(input, value) {
+
+  // a user focuses the control first, which blurs (and commits) the previous one
+  input.focus();
+
   if (input.type === 'checkbox') {
     if (input.checked !== value) {
       input.click();

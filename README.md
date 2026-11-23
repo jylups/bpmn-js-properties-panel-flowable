@@ -52,6 +52,8 @@ The Flowable groups come after the BPMN ones.
 | Business rule | business rule tasks | input variables, rules, exclude, result variable, Java class |
 | Receive, Event output, Event correlation | receive tasks | event key, event name, skip expression, event out parameters, correlation parameters |
 | Field injection | service and send tasks | fields of class and delegate expression implementations, and fields a typed task does not read (Other fields) |
+| Called process | call activities | called element and its type (key or ID), same deployment (the legacy `calledElementBinding="deployment"` is read and replaced on edit), default tenant fallback, instance name, business key and inheritance, inherit variables, out mappings in local scope, complete asynchronously, instance ID variable |
+| In mappings, Out mappings | call activities and case tasks (in and out), start events and script tasks (in) | per mapping: a variable (source or source expression, target or target expression, types, transient), all variables (with local), or the business key (in only) |
 | Exception mapping | service tasks, call activities | error code, exception class, include subclasses, root cause |
 | Form properties | start events, user tasks | ID, name, type (built-in or custom), date pattern and lenient parsing (date), values (enum), variable, expression, default, readable, writable, required |
 | Asynchronous execution | flow nodes | `async`, `exclusive`, `asyncLeave`, `asyncLeaveExclusive`, retry time cycle (activities), job category |
