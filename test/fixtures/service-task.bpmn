@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:flowable="http://flowable.org/bpmn"
+             id="Definitions_serviceTask"
+             targetNamespace="http://flowable.org/bpmn">
+  <process id="process" isExecutable="true">
+    <serviceTask id="classTask" flowable:class="org.example.Charge">
+      <extensionElements>
+        <flowable:field name="currency" stringValue="EUR" />
+        <flowable:mapException errorCode="paymentFailed" includeChildExceptions="true">org.example.PaymentException</flowable:mapException>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="exprTask" flowable:expression="${calculator.total(order)}" flowable:resultVariable="total" />
+    <serviceTask id="mailTask" flowable:type="mail">
+      <extensionElements>
+        <flowable:field name="to"><flowable:string>ops@example.com</flowable:string></flowable:field>
+        <flowable:field name="subject"><flowable:expression>Order ${orderId}</flowable:expression></flowable:field>
+        <flowable:field name="ignoreException"><flowable:string>true</flowable:string></flowable:field>
+        <flowable:field name="custom"><flowable:string>x</flowable:string></flowable:field>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="httpTask" flowable:type="http" flowable:parallelInSameTransaction="true">
+      <extensionElements>
+        <flowable:field name="requestMethod"><flowable:string>GET</flowable:string></flowable:field>
+        <flowable:field name="requestUrl"><flowable:string>https://example.com/orders</flowable:string></flowable:field>
+        <flowable:httpRequestHandler class="org.example.RequestHandler">
+          <flowable:field name="header" stringValue="X-Test" />
+        </flowable:httpRequestHandler>
+        <flowable:httpResponseHandler type="script">
+          <flowable:script language="groovy">execution.setVariable('ok', true)</flowable:script>
+        </flowable:httpResponseHandler>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="shellTask" flowable:type="shell">
+      <extensionElements>
+        <flowable:field name="command"><flowable:string>ls</flowable:string></flowable:field>
+        <flowable:field name="wait"><flowable:string>false</flowable:string></flowable:field>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="caseTask" flowable:type="case" flowable:caseDefinitionKey="claim" flowable:inheritVariables="true" />
+    <serviceTask id="workerTask" flowable:type="external-worker" flowable:topic="orders">
+      <extensionElements>
+        <flowable:externalWorkerInParameter source="orderId" target="id" />
+        <flowable:externalWorkerOutParameter source="status" target="orderStatus" transient="true" />
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="sendEventTask" flowable:type="send-event" flowable:triggerable="true">
+      <extensionElements>
+        <flowable:eventType>orderCreated</flowable:eventType>
+        <flowable:triggerEventType>orderConfirmed</flowable:triggerEventType>
+        <flowable:eventInParameter sourceExpression="${order.id}" target="orderId" />
+        <flowable:triggerEventCorrelationParameter name="orderId" value="${order.id}" />
+        <flowable:channelKey>orders</flowable:channelKey>
+        <flowable:systemChannel />
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="dmnTask" flowable:type="dmn">
+      <extensionElements>
+        <flowable:field name="decisionTableReferenceKey"><flowable:string>risk</flowable:string></flowable:field>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="muleTask" flowable:type="mule" />
+    <callActivity id="call" calledElement="sub" />
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process">
+      <bpmndi:BPMNShape id="classTask_di" bpmnElement="classTask"><dc:Bounds x="100" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="exprTask_di" bpmnElement="exprTask"><dc:Bounds x="230" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mailTask_di" bpmnElement="mailTask"><dc:Bounds x="360" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="httpTask_di" bpmnElement="httpTask"><dc:Bounds x="490" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shellTask_di" bpmnElement="shellTask"><dc:Bounds x="620" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="caseTask_di" bpmnElement="caseTask"><dc:Bounds x="100" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="workerTask_di" bpmnElement="workerTask"><dc:Bounds x="230" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sendEventTask_di" bpmnElement="sendEventTask"><dc:Bounds x="360" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="dmnTask_di" bpmnElement="dmnTask"><dc:Bounds x="490" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="muleTask_di" bpmnElement="muleTask"><dc:Bounds x="620" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="call_di" bpmnElement="call"><dc:Bounds x="100" y="320" width="100" height="80" /></bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
