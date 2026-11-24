@@ -10,7 +10,9 @@ const EXCLUDED = {
   'Work-form-field-validation': 'Flowable Work/Design, planned after the open-source engine scope',
   'Task-candidates-type': 'Flowable Work/Design, planned after the open-source engine scope',
   'Static-process-key': 'Flowable Work/Design, planned after the open-source engine scope',
-  'Translation': 'Flowable Work/Design, planned after the open-source engine scope'
+  'Translation': 'Flowable Work/Design, planned after the open-source engine scope',
+  'Condition': 'Flowable Work/Design condition builder, planned after the open-source engine scope',
+  'EdgeDockers': 'diagram interchange: where an edge docks on its source and target, written by Flowable Design'
 };
 
 const sources = Object.values(import.meta.glob('../lib/**/*.js', { query: '?raw', import: 'default', eager: true })).join('\n');
